@@ -30,6 +30,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import org.intellij.lang.annotations.Language;
 
+import java.nio.IntBuffer;
+
 public class MainActivity extends Activity {
     private ImageView imageView;
     private SeekBar seekBar;
@@ -68,28 +70,33 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        int[] pixels = CurveBitmapManager.createPixelBuffer();
+        Bitmap bitmap = CurveBitmapManager.createCurveBitmapFromBuffer(pixels);
+
+        /*
         imageView = findViewById(R.id.imageView);
         seekBar = findViewById(R.id.seekBar);
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                blurRadius = progress * 5f;
-                Log.i(TAG, "radius : " + blurRadius);
-                //applyRenderEffect();
-                //applyRuntimeShaderEffect();
-                //applyRuntimeShaderEffect3();
-                //applyRuntimeShaderEffect5();
-                applyRuntimeShaderEffect6();
 
-            }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
+         */
     }
+
+    @Override
+    protected void onDestroy() {
+        Log.d(TAG, "dlgmlals3 onDestroy");
+        super.onDestroy();
+        CurveBitmapManager.clear(); // 내부에서 recycle()도 수행
+    }
+
+
 
     private void applyRenderEffect() {
         // ✅ Bitmap에서 BitmapShader 생성
